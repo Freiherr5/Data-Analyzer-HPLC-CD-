@@ -2,11 +2,23 @@
 All the different executions you can perform are listed here
 """
 import pandas as pd
+import os
 import IteratorCD as iter
 import SpectrumCD as spec
 import HPLC as hplc
 import HeatCD as heat
 
+# single method directory setter
+def make_directory(set_target_directory):
+    # check and create new target directory if input given
+    if os.path.exists(set_target_directory):
+        print("Path already exists, skip folder creation...")
+    else:
+        path = os.mkdir(set_target_directory)
+        print("Path " + str(set_target_directory) + " is created...")
+        # read files from target folder "input"
+
+path = str(pathlib.Path().absolute())
 
 while True:
     # innitiation of programm
@@ -40,13 +52,20 @@ while True:
     elif str(initial_input).lower() == "ft_hplc":
         input1 = input("Path of Text file: ")
         input2 = input("Set the name: ")
+        input_wantmkdir = input("Do you want to export the file in a specific directory? (yes/no): ")
+        if input_wantmkdir.lower() is "yes":
+            input_mkdir = input("Write the absolute path of the target directory: ")
+            make_directory(input_mkdir)
+        else:
+            input_mkdir = str(path + "/output_tables")
+
         df1 = pd.read_fwf(str(input1))
         df2 = hplc.HPLC(df1)
         normalized_table = df2.clean_graph()
-        normalized_table.to_csv(input2)
+        normalized_table.to_csv(input_mkdir + "/" + input2 + ".csv")
 
         frac_ask = input("Do you want to create fraction file? (yes/no) ")
-        if frac_ask.lower() is True:
+        if frac_ask.lower() is "yes":
             input3 = input("Set the name of the Fraction file: ")
             frac_norm = df2.clean_frac()
             frac_norm.to_csv(input3)
@@ -58,15 +77,22 @@ while True:
         input1 = input("Path of Text file: ")
         input2 = input("Set the name: ")
         input3 = input("Set the color (red, blue, green, yellow, etc.): ").lower()
+        input_wantmkdir = input("Do you want to export the file in a specific directory? (yes/no): ")
+        if input_wantmkdir.lower() is "yes":
+            input_mkdir = input("Write the absolute path of the target directory: ")
+            make_directory(input_mkdir)
+        else:
+            input_mkdir = str(path + "/output_graphs")
+
         df1 = pd.read_fwf(str(input1))
         df2 = hplc.HPLC(df1)
         normalized_table = df2.clean_graph()
 
         frac_ask = input("Do you want to add Fractions? (yes/no) ")
-        if frac_ask.lower() is True:
+        if frac_ask.lower() is "yes":
             fraction = 1
 
-        hplc.HPLC.hplc_plot(normalized_table, df_frac=fraction, set_show=1, set_name=input2, set_color=input3)
+        hplc.HPLC.hplc_plot(normalized_table, df_frac=fraction, set_show=1, set_name=input2, set_color=input3, set_directory=input_mkdir)
         print("Task finished!")
 
     # CD_spec
@@ -76,43 +102,71 @@ while True:
     elif str(initial_input).lower() == "ft_spec":
         input1 = input("Path of Text file: ")
         input2 = input("Set the name: ")
+        input_wantmkdir = input("Do you want to export the file in a specific directory? (yes/no): ")
+        if input_wantmkdir.lower() is "yes":
+            input_mkdir = input("Write the absolute path of the target directory: ")
+            make_directory(input_mkdir)
+        else:
+            input_mkdir = str(path + "/output_tables")
+
         df1 = pd.read_fwf(str(input1))
         df2 = spec.SpectrumPlot(df1)
         normalized_table = df2.clean_spectrum()
-        normalized_table.to_csv(input2)
+        normalized_table.to_csv(input_mkdir + "/" + input2 + ".csv")
         print("Task finished!")
 
     elif str(initial_input).lower() == "pg_spec":
         input1 = input("Path of Text file: ")
         input2 = input("Set the name: ")
         input3 = input("Set the color (red, blue, green, yellow, etc.): ").lower()
+        input_wantmkdir = input("Do you want to export the file in a specific directory? (yes/no): ")
+        if input_wantmkdir.lower() is "yes":
+            input_mkdir = input("Write the absolute path of the target directory: ")
+            make_directory(input_mkdir)
+        else:
+            input_mkdir = str(path + "/output_graphs")
+
         df1 = pd.read_fwf(str(input1))
         df2 = spec.SpectrumPlot(df1)
         df3 = df2.clean_spectrum()
-        spec.SpectrumPlot.spectrum_plot(df3, set_show=0, set_name=str(input2), set_color=input3)
+        spec.SpectrumPlot.spectrum_plot(df3, set_show=0, set_name=str(input2), set_color=input3, set_directory=input_mkdir)
         print("Task finished!")
 
     # CD_heat
     elif str(initial_input).lower() == "heat_help":
         heat.HeatPlot.help()
 
+    elif str(initial_input).lower() == "ft_heat":
+        input1 = input("Path of Text file: ")
+        input2 = input("Set the name: ")
+        input_wantmkdir = input("Do you want to export the file in a specific directory? (yes/no): ")
+        if input_wantmkdir.lower() is "yes":
+            input_mkdir = input("Write the absolute path of the target directory: ")
+            make_directory(input_mkdir)
+        else:
+            input_mkdir = str(path + "/output_tables")
+
+        df1 = pd.read_fwf(str(input1))
+        df2 = heat.HeatPlot(df1)
+        normalized_table = df2.normalize_heat()
+        normalized_table.to_csv(input_mkdir + "/" + input2 + ".csv")
+        print("Task finished!")
+
     elif str(initial_input).lower() == "pg_heat":
         input1 = input("Path of Text file: ")
         input2 = input("Set the name: ")
         input3 = input("Set the color (red, blue, green, yellow, etc.): ").lower()
+        input_wantmkdir = input("Do you want to export the file in a specific directory? (yes/no): ")
+        if input_wantmkdir.lower() is "yes":
+            input_mkdir = input("Write the absolute path of the target directory: ")
+            make_directory(input_mkdir)
+        else:
+            input_mkdir = str(path + "/output_graphs")
+
         df1 = pd.read_fwf(str(input1))
         df2 = heat.HeatPlot(df1)
         df3 = df2.normalize_heat()
-        heat.HeatPlot.plot_heat(df3, set_show=0, set_name=str(input2), set_color=input3)
-        print("Task finished!")
-
-    elif str(initial_input).lower() == "ft_heat":
-        input1 = input("Path of Text file: ")
-        input2 = input("Set target directory with name: ")
-        df1 = pd.read_fwf(str(input1))
-        df2 = heat.HeatPlot(df1)
-        normalized_table = df2.normalize_heat()
-        normalized_table.to_csv(input2)
+        heat.HeatPlot.plot_heat(df3, set_show=0, set_name=str(input2), set_color=input3, set_directory=input_mkdir)
         print("Task finished!")
 
     # Iterator

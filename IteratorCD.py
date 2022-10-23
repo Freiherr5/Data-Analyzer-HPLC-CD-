@@ -51,7 +51,7 @@ class IteratorCD:
     @staticmethod
     def CD_iterator_advanced(set_target_directory = str(path) + "/output_graphs/"):
 
-        #chack and create new target directory if input given
+        #check and create new target directory if input given
         if os.path.exists(set_target_directory):
             print("Path already exists, skip folder creation...")
         else:
@@ -59,7 +59,7 @@ class IteratorCD:
             print("Path " + str(set_target_directory) + " is created...")
             # read files from target folder "input"
 
-        txt_files = glob.glob(str(path) + "/input/*.txt")
+        txt_files = glob.glob(str(path) + "/input_txt/*.txt")
         # decipher txt data and create dataframe with parameters based on the name tags
         k = 0
         array_txt = []
@@ -78,7 +78,6 @@ class IteratorCD:
             color_setter.append(inter)
             color_setter.append(inter)
             h = h+1
-        # print(color_setter)
 
         # process data (needs modification) and color swapper in while loop
         i = 0
@@ -86,8 +85,8 @@ class IteratorCD:
             #get inner items, array in array) (extract data from array_txt file)
             intermediate_info_array = array_txt[i]
             # i_date = intermediate_info_array[0]
-            i_type = intermediate_info_array[1]
-            i_name = intermediate_info_array[2]
+            i_name = intermediate_info_array[1]
+            i_type = intermediate_info_array[2]
 
             if i_type.lower() == "h":
                 df = pd.read_fwf(str(txt_files[i]))
@@ -119,9 +118,3 @@ class IteratorCD:
                 print("Index " + str(i) + " in the table could not be printed")
             i = i+1
 
-
-
-# IteratorCD.CD_iterator_advanced(set_target_directory="/home/Freiherr/outputs/")
-
-# data = pd.read_csv(r"/home/Freiherr/graphs/OEP24 A ATP.csv")
-# IteratorCD.CD_data_iterator(data)
