@@ -7,6 +7,7 @@ import IteratorCD as iter
 import SpectrumCD as spec
 import HPLC as hplc
 import HeatCD as heat
+import pathlib
 
 # single method directory setter
 def make_directory(set_target_directory):
