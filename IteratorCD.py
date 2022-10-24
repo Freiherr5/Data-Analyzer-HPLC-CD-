@@ -23,6 +23,7 @@ class IteratorCD:
         Functions:
         
         CD_data_iterator() --> takes in a table which is then processed by the algorithm (see example in the package)
+                               table column structure: absolute path; mode(s/h/S200a); set_show(0/1); set_name; set_directory; color
                                
         CD-iterator_advanced() --> requires "input_txt" folder, pints out graphs in designated output folder
                                    requires path to output folder (will be created in directory automatically)
