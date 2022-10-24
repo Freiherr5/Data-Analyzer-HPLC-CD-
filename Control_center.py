@@ -19,7 +19,7 @@ def make_directory(set_target_directory):
         print("Path " + str(set_target_directory) + " is created...")
         # read files from target folder "input"
 
-path = str(pathlib.Path().absolute())
+path_folder = str(pathlib.Path().absolute())
 
 while True:
     # innitiation of programm
@@ -34,7 +34,8 @@ while True:
     
     Multiple file analysis 
     1. Table supported data analysis (compare added txt file for more info, format: .csv) (tb_iter)
-    2. Folder based data analysis (please drop the files in the included "input" folder) (fb_iter)
+    2. Folder based data analysis (please drop the files in the included "input_txt" folder) (fb_iter)
+    --> help (iter_help)
     
     End program (quit)
     
@@ -54,11 +55,11 @@ while True:
         input1 = input("Path of Text file: ")
         input2 = input("Set the name: ")
         input_wantmkdir = input("Do you want to export the file in a specific directory? (yes/no): ")
-        if input_wantmkdir.lower() is "yes":
+        if input_wantmkdir.lower() == "yes":
             input_mkdir = input("Write the absolute path of the target directory: ")
             make_directory(input_mkdir)
         else:
-            input_mkdir = str(path + "/output_tables")
+            input_mkdir = str(path_folder + "/output_tables")
 
         df1 = pd.read_fwf(str(input1))
         df2 = hplc.HPLC(df1)
@@ -66,7 +67,7 @@ while True:
         normalized_table.to_csv(input_mkdir + "/" + input2 + ".csv")
 
         frac_ask = input("Do you want to create fraction file? (yes/no) ")
-        if frac_ask.lower() is "yes":
+        if frac_ask.lower() == "yes":
             input3 = input("Set the name of the Fraction file: ")
             frac_norm = df2.clean_frac()
             frac_norm.to_csv(input3)
@@ -79,18 +80,18 @@ while True:
         input2 = input("Set the name: ")
         input3 = input("Set the color (red, blue, green, yellow, etc.): ").lower()
         input_wantmkdir = input("Do you want to export the file in a specific directory? (yes/no): ")
-        if input_wantmkdir.lower() is "yes":
+        if input_wantmkdir.lower() == "yes":
             input_mkdir = input("Write the absolute path of the target directory: ")
             make_directory(input_mkdir)
         else:
-            input_mkdir = str(path + "/output_graphs")
+            input_mkdir = str(path_folder + "/output_graphs")
 
         df1 = pd.read_fwf(str(input1))
         df2 = hplc.HPLC(df1)
         normalized_table = df2.clean_graph()
 
         frac_ask = input("Do you want to add Fractions? (yes/no) ")
-        if frac_ask.lower() is "yes":
+        if frac_ask.lower() == "yes":
             fraction = 1
 
         hplc.HPLC.hplc_plot(normalized_table, df_frac=fraction, set_show=1, set_name=input2, set_color=input3, set_directory=input_mkdir)
@@ -104,11 +105,11 @@ while True:
         input1 = input("Path of Text file: ")
         input2 = input("Set the name: ")
         input_wantmkdir = input("Do you want to export the file in a specific directory? (yes/no): ")
-        if input_wantmkdir.lower() is "yes":
+        if input_wantmkdir.lower() == "yes":
             input_mkdir = input("Write the absolute path of the target directory: ")
             make_directory(input_mkdir)
         else:
-            input_mkdir = str(path + "/output_tables")
+            input_mkdir = str(path_folder + "/output_tables")
 
         df1 = pd.read_fwf(str(input1))
         df2 = spec.SpectrumPlot(df1)
@@ -121,11 +122,11 @@ while True:
         input2 = input("Set the name: ")
         input3 = input("Set the color (red, blue, green, yellow, etc.): ").lower()
         input_wantmkdir = input("Do you want to export the file in a specific directory? (yes/no): ")
-        if input_wantmkdir.lower() is "yes":
+        if input_wantmkdir.lower() == "yes":
             input_mkdir = input("Write the absolute path of the target directory: ")
             make_directory(input_mkdir)
         else:
-            input_mkdir = str(path + "/output_graphs")
+            input_mkdir = str(path_folder + "/output_graphs")
 
         df1 = pd.read_fwf(str(input1))
         df2 = spec.SpectrumPlot(df1)
@@ -141,11 +142,11 @@ while True:
         input1 = input("Path of Text file: ")
         input2 = input("Set the name: ")
         input_wantmkdir = input("Do you want to export the file in a specific directory? (yes/no): ")
-        if input_wantmkdir.lower() is "yes":
+        if input_wantmkdir.lower() == "yes":
             input_mkdir = input("Write the absolute path of the target directory: ")
             make_directory(input_mkdir)
         else:
-            input_mkdir = str(path + "/output_tables")
+            input_mkdir = str(path_folder + "/output_tables")
 
         df1 = pd.read_fwf(str(input1))
         df2 = heat.HeatPlot(df1)
@@ -158,11 +159,11 @@ while True:
         input2 = input("Set the name: ")
         input3 = input("Set the color (red, blue, green, yellow, etc.): ").lower()
         input_wantmkdir = input("Do you want to export the file in a specific directory? (yes/no): ")
-        if input_wantmkdir.lower() is "yes":
+        if input_wantmkdir.lower() == "yes":
             input_mkdir = input("Write the absolute path of the target directory: ")
             make_directory(input_mkdir)
         else:
-            input_mkdir = str(path + "/output_graphs")
+            input_mkdir = str(path_folder + "/output_graphs")
 
         df1 = pd.read_fwf(str(input1))
         df2 = heat.HeatPlot(df1)
@@ -178,9 +179,17 @@ while True:
         print("Task finished!")
 
     elif str(initial_input).lower() == "fb_iter":
-        input_request = input("Name absolute target directory path: ")
-        iter.IteratorCD.CD_iterator_advanced(set_target_directory=str(input_request))
+        input_wantmkdir = input("Do you want to export the file in a specific directory? (yes/no): ")
+        if input_wantmkdir.lower() == "yes":
+            input_mkdir = input("Write the absolute path of the target directory: ")
+            make_directory(input_mkdir)
+        else:
+            input_mkdir = str(path_folder + "/output_graphs/")
+        iter.IteratorCD.CD_iterator_advanced(set_target_directory=str(input_mkdir))
         print("Task finished!")
+
+    elif str(initial_input).lower() == "iter_help":
+        iter.IteratorCD.help()
 
     else:
         print("Invalid command, please try again...")
