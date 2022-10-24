@@ -112,12 +112,12 @@ class IteratorCD:
                         df_inter1 = hplc.HPLC(df)
                         df_inter2 = df_inter1.clean_graph()
                         df_interfrac = df_inter1.clean_frac(txt_name = str(i_name))
-                        if df_interfrac.empty == True:
+                        if df_interfrac.empty is True:
                             set_frac=0
                         else:
-                            set_frac= df_interfrac
+                            set_frac=df_interfrac
 
-                        hplc.HPLC.hplc_plot(df_inter2, df_frac= set_frac,set_show=0, set_name=str(i_name),set_directory=str(set_target_directory), set_color=str(i_color))
+                        hplc.HPLC.hplc_plot(df_inter2, df_frac= set_frac, set_show=0, set_name=str(i_name), set_directory=str(set_target_directory), set_color=str(i_color))
                         print("Printing " + str(txt_files[i]) + ".")
                     else:
                         print("File " + str(txt_files[i]) + " could not be printed")

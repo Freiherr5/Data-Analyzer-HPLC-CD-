@@ -5,18 +5,18 @@ import pathlib
 
 class SpectrumPlot:
 
-    #set base path independant of device:
-    path = str(pathlib.Path().absolute()) #/home/user/Analyzer_Hagn_Data_package
+    # set base path independent of device:
+    path = str(pathlib.Path().absolute()) # /home/user/Analyzer_Hagn_Data_package
 
     @staticmethod
     def help():
         print("""
-        Functions:
+        Functions of the script:
         
         clean_spectrum(df = fwf one column dataframe with \\t separation)
-           --> outputs: dataframe with Wavelenght and CD-value
+           --> outputs: dataframe with the wavelenght and the correlating molar ellipticity value (CD-value)
         
-        spectrum_plot(df_clean --> dataframe from prior clean_spectrum
+        spectrum_plot(df_clean --> dataframe from the prior clean_spectrum method
         """)
 
     def __init__(self, df2):
@@ -56,9 +56,3 @@ class SpectrumPlot:
             plt.show()
         else:
             plt.savefig(str(set_directory)+str(set_name)+"_spectrum.png", dpi=400, bbox_inches="tight")
-
-
-# SpectrumPlot.help()
-# df4 = pd.read_fwf("/home/Freiherr/Dataset CD Hagn/CD 27052022 (2)/OEP24A_noATP_WF_270522_spectra.txt")
-# df5 = SpectrumPlot.clean_spectrum(df4)
-# SpectrumPlot.spectrum_plot(df5, set_show=0)

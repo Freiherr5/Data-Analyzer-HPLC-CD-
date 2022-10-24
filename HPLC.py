@@ -2,18 +2,18 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import pathlib
-#data needs to be ugf8 --> is ugf16 by default, not readable
+# data needs to be ugf8 --> is ugf16 by default, not readable
 
 
 class HPLC:
 
-    #set base path independant of device:
-    path = str(pathlib.Path().absolute()) #/home/user/Analyzer_Hagn_Data_package
+    # set base path independant of device:
+    path = str(pathlib.Path().absolute()) # /home/user/Analyzer_Hagn_Data_package
 
     @staticmethod
     def help():
         print("""
-        Functions:
+        Functions of the script:
         
         clean_graph(df = fwf one column dataframe with \\t separation)
            --> outputs primary table for protein UV signal to volume (buffer flow through column)
@@ -22,7 +22,6 @@ class HPLC:
            --> outputs secondary table with all the fractions taken at each increment during chromatography
         
         hplc_plot(df = both prior dataframes are taken automatically (Iterator is advisable to use))
-           --> base parameters: self, df_frac = 0, set_show=1, set_name="protein", set_directory="/home/Freiherr/graphs/", set_color="r"
            --> outputs chromatogram in set_directory folder
         """)
 
@@ -30,7 +29,7 @@ class HPLC:
         self.df3 = df3
 
     def clean_graph(self):
-        #primary table for UV signal volume graph
+        # primary table for UV signal volume graph
         sum_array_hplc = []
         i = 2
         while i != int(len(self.df3.index)):
@@ -50,7 +49,7 @@ class HPLC:
             return df_hplc_clean
 
     def clean_frac(self, txt_name = "unnamed"):
-        #generate secondary table for fractions
+        # generate secondary table for fractions
         if len(self.df3.iloc[0,0].split("\t")) >= 12:
             j = 2
             sum_fractions_hplc = []
@@ -76,7 +75,7 @@ class HPLC:
         ax2.set_xlabel("Volume [ml]", fontsize=15)
         ax2.set_title("Chromatogram of " + str(set_name), fontsize=25)
         plt.scatter(x=0, y = -20, color="white")
-        #generation of fraction markings if given --> != 0
+        # generation of fraction markings if given --> != 0
         if df_frac.iloc[0,0] != "nothing":
             plt.text(0.0, -20.0, "Fractions:", fontsize=15)
             p=0
@@ -88,9 +87,3 @@ class HPLC:
             plt.show()
         else:
             plt.savefig(str(set_directory) + str(set_name) + "_hplc.png", dpi=400,bbox_inches="tight")
-
-# df_HPLC = pd.read_fwf("/home/Freiherr/input/01062022;S200a;OEP24B 0.5% DPC;.txt")
-# df_HPLC = pd.read_fwf("/home/Freiherr/input/25042022;S200a;Nanodisk dH5 post-NiNTA;.txt")
-# df2 = HPLC(df_HPLC)
-# print(df2.clean_graph())
-# print(df2.clean_frac())

@@ -22,7 +22,7 @@ def make_directory(set_target_directory):
 path_folder = str(pathlib.Path().absolute())
 
 while True:
-    # innitiation of programm
+    # initiation of program
     print("""
     Data Analyzer for HPLC and CD data
     --> please input the given code string in brackets for the desired mode
@@ -52,14 +52,14 @@ while True:
         hplc.HPLC.help()
 
     elif str(initial_input).lower() == "ft_hplc":
-        input1 = input("Path of Text file: ")
+        input1 = input("Path of .txt file (copy absolute path: ctrl + shift + c): ")
         input2 = input("Set the name: ")
         input_wantmkdir = input("Do you want to export the file in a specific directory? (yes/no): ")
         if input_wantmkdir.lower() == "yes":
             input_mkdir = input("Write the absolute path of the target directory: ")
             make_directory(input_mkdir)
         else:
-            input_mkdir = str(path_folder + "/output_tables")
+            input_mkdir = str(path_folder + "/output_tables/")
 
         df1 = pd.read_fwf(str(input1))
         df2 = hplc.HPLC(df1)
@@ -76,7 +76,7 @@ while True:
 
     elif str(initial_input).lower() == "pg_hplc":
         fraction = 0
-        input1 = input("Path of Text file: ")
+        input1 = input("Path of .txt file (copy absolute path: ctrl + shift + c): ")
         input2 = input("Set the name: ")
         input3 = input("Set the color (red, blue, green, yellow, etc.): ").lower()
         input_wantmkdir = input("Do you want to export the file in a specific directory? (yes/no): ")
@@ -84,17 +84,31 @@ while True:
             input_mkdir = input("Write the absolute path of the target directory: ")
             make_directory(input_mkdir)
         else:
-            input_mkdir = str(path_folder + "/output_graphs")
+            input_mkdir = str(path_folder + "/output_graphs/")
 
         df1 = pd.read_fwf(str(input1))
         df2 = hplc.HPLC(df1)
         normalized_table = df2.clean_graph()
 
-        frac_ask = input("Do you want to add Fractions? (yes/no) ")
+        frac_ask = input('Do you want to add Fractions? (yes/no) ')
         if frac_ask.lower() == "yes":
-            fraction = 1
+            if len(df1.iloc[0, 0].split("\t")) >= 12:
+                j = 2
+                sum_fractions_hplc = []
+                while df1.iloc[j, 0].split("\t")[11] != '"Waste"':
+                    intermediate0_frac = str(df1.iloc[j, 0]).split("\t")[10]
+                    intermediate1_frac = str(df1.iloc[j, 0]).split("\t")[11]
+                    sum_fractions_hplc.append([intermediate0_frac, intermediate1_frac])
+                    j = j + 1
+                fraction = pd.DataFrame(sum_fractions_hplc, columns=["Volume", "Fraction number"])
 
-        hplc.HPLC.hplc_plot(normalized_table, df_frac=fraction, set_show=1, set_name=input2, set_color=input3, set_directory=input_mkdir)
+            else:
+                fraction = pd.DataFrame(["nothing"])
+
+        else:
+            fraction = pd.DataFrame(["nothing"])
+
+        hplc.HPLC.hplc_plot(normalized_table, df_frac=fraction, set_show=0, set_name=input2, set_color=input3, set_directory=input_mkdir)
         print("Task finished!")
 
     # CD_spec
@@ -102,14 +116,14 @@ while True:
         spec.SpectrumPlot.help()
 
     elif str(initial_input).lower() == "ft_spec":
-        input1 = input("Path of Text file: ")
+        input1 = input("Path of .txt file (copy absolute path: ctrl + shift + c): ")
         input2 = input("Set the name: ")
         input_wantmkdir = input("Do you want to export the file in a specific directory? (yes/no): ")
         if input_wantmkdir.lower() == "yes":
             input_mkdir = input("Write the absolute path of the target directory: ")
             make_directory(input_mkdir)
         else:
-            input_mkdir = str(path_folder + "/output_tables")
+            input_mkdir = str(path_folder + "/output_tables/")
 
         df1 = pd.read_fwf(str(input1))
         df2 = spec.SpectrumPlot(df1)
@@ -118,7 +132,7 @@ while True:
         print("Task finished!")
 
     elif str(initial_input).lower() == "pg_spec":
-        input1 = input("Path of Text file: ")
+        input1 = input("Path of .txt file (copy absolute path: ctrl + shift + c): ")
         input2 = input("Set the name: ")
         input3 = input("Set the color (red, blue, green, yellow, etc.): ").lower()
         input_wantmkdir = input("Do you want to export the file in a specific directory? (yes/no): ")
@@ -126,7 +140,7 @@ while True:
             input_mkdir = input("Write the absolute path of the target directory: ")
             make_directory(input_mkdir)
         else:
-            input_mkdir = str(path_folder + "/output_graphs")
+            input_mkdir = str(path_folder + "/output_graphs/")
 
         df1 = pd.read_fwf(str(input1))
         df2 = spec.SpectrumPlot(df1)
@@ -139,14 +153,14 @@ while True:
         heat.HeatPlot.help()
 
     elif str(initial_input).lower() == "ft_heat":
-        input1 = input("Path of Text file: ")
+        input1 = input("Path of .txt file (copy absolute path: ctrl + shift + c): ")
         input2 = input("Set the name: ")
         input_wantmkdir = input("Do you want to export the file in a specific directory? (yes/no): ")
         if input_wantmkdir.lower() == "yes":
             input_mkdir = input("Write the absolute path of the target directory: ")
             make_directory(input_mkdir)
         else:
-            input_mkdir = str(path_folder + "/output_tables")
+            input_mkdir = str(path_folder + "/output_tables/")
 
         df1 = pd.read_fwf(str(input1))
         df2 = heat.HeatPlot(df1)
@@ -155,7 +169,7 @@ while True:
         print("Task finished!")
 
     elif str(initial_input).lower() == "pg_heat":
-        input1 = input("Path of Text file: ")
+        input1 = input("Path of .txt file (copy absolute path: ctrl + shift + c): ")
         input2 = input("Set the name: ")
         input3 = input("Set the color (red, blue, green, yellow, etc.): ").lower()
         input_wantmkdir = input("Do you want to export the file in a specific directory? (yes/no): ")
@@ -163,7 +177,7 @@ while True:
             input_mkdir = input("Write the absolute path of the target directory: ")
             make_directory(input_mkdir)
         else:
-            input_mkdir = str(path_folder + "/output_graphs")
+            input_mkdir = str(path_folder + "/output_graphs/")
 
         df1 = pd.read_fwf(str(input1))
         df2 = heat.HeatPlot(df1)
@@ -173,7 +187,7 @@ while True:
 
     # Iterator
     elif str(initial_input).lower() == "tb_iter":
-        input_csv = input("Please type in the path of your .csv table: ")
+        input_csv = input("Please type in the path of your .csv table (copy absolute path: ctrl + shift + c): ")
         data = pd.read_csv(str(input_csv))
         iter.IteratorCD.CD_data_iterator(data)
         print("Task finished!")

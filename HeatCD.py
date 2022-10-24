@@ -9,23 +9,19 @@ import pathlib
 
 class HeatPlot:
 
-    #set base path independant of device:
-    path = str(pathlib.Path().absolute()) #/home/user/Analyzer_Hagn_Data_package
+    # set base path independant of device:
+    path = str(pathlib.Path().absolute()) # /home/user/Analyzer_Hagn_Data_package
 
     @staticmethod
     def help():
         print("""
-          Functions: 
+          Functions of the script: 
           
           normalize_heat(df = fwf one column dataframe with \\t separation)
-            --> returns normalized CD values to temperature (DataFrame) = df_norm
+            --> returns normalized CD values in correlation to the temperature (DataFrame)
             
-          plot_heat(df_norm, set_show, set_print, set_name, set_directory)
-            --> set_show = presents graph in notebook
-            --> set_print = prints graph with 400 dpi in /home/Freiherr/graphs/; standard name: CD_heat
-            --> set_name = overwrites standard name of graph on the figure and the file
-            --> set_directory = path to save data in a specific location 
-            --> set_color = color adapt of scatter data, red is standard
+          plot_heat --> dataframe from the prior normalize_heat method
+         
           """)
 
     def __init__(self, df):
@@ -41,7 +37,7 @@ class HeatPlot:
         df_heat_clean = pd.DataFrame(sum_array, dtype=np.float64, columns=["temperature", "CD_value", "voltage"])
         df_heat_clean = df_heat_clean.drop(columns=["voltage"])
 
-        df_heatmax = np.array(df_heat_clean.idxmax()) #start of Normalization --> search min and max value
+        df_heatmax = np.array(df_heat_clean.idxmax()) # start of Normalization --> search min and max value
         df_heatmin = np.array(df_heat_clean.idxmin())
 
         min_heat = df_heat_clean.iloc[df_heatmin[1], 1]
@@ -65,20 +61,20 @@ class HeatPlot:
 
     def plot_heat(self, set_show=1, set_name="CD_heat", set_directory= str(path) + "/output_graphs/", set_color="r"):
 
-        #generating temp50; searches the temperature where 50% of the protein is denaturated
+        # generating temp50; searches the temperature where 50% of the protein is denaturated
         df_50 = self.loc[(self["norm_heat"] >= 0.45) & (self["norm_heat"] <= 0.55)]
         df_50_mean = df_50.mean()
         df_50_result_temp = (df_50_mean.iloc[1] * df_50_mean.iloc[0]) / 0.5
         temp50 = round(df_50_result_temp, 2)
 
-        #plotting of the graph (singular, not multiple graphs in one figure)
+        # plotting of the graph (singular, not multiple graphs in one figure)
         max_temp = 110
         plt.figure(figsize=(10, 10))
         ax1 = plt.subplot(1, 1, 1)
         ax1.scatter(data=self, x="temperature", y="norm_heat", color=str(set_color))
         ax1.set_xlabel("temperature [°C]", fontsize=15)
         ax1.set_ylabel("relative protein nativity", fontsize=15)
-        x1, y1 = (temp50, temp50), (0.5, 0)  # very strange behaviour, but well, first bracket is for the x values, second for the y brackets
+        x1, y1 = (temp50, temp50), (0.5, 0)  # first bracket is for the x values, second for the y brackets
         x2, y2 = (20, temp50), (0.5, 0.5)
         plt.plot(x1, y1, color="black", linestyle="--")
         plt.plot(x2, y2, color="black", linestyle="--")
@@ -92,19 +88,3 @@ class HeatPlot:
             plt.show()
         else:
             plt.savefig(str(set_directory)+str(set_name)+"_heat.png", dpi=400, bbox_inches="tight")
-
-
-
-
-
-#idea test (success)
-
-# df1 = pd.read_fwf("/home/Freiherr/Dataset CD Hagn/CD 27052022 (2)/OEP24A_1mM_ATP_directly_after_mix_WF_270522_heat.txt")
-#
-# df2 = HeatPlot(df1)
-# df3= df2.normalize_heat()
-# HeatPlot.plot_heat(df3, set_show=0, set_name="OEP24 A")
-# HeatPlot.help()
-#
-
-
