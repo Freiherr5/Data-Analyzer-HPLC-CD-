@@ -71,7 +71,7 @@ class HPLC:
         plt.figure(figsize=(25, 10))
         ax2 = plt.subplot(1, 1, 1)
         ax2.scatter(data=self, x="Volume", y="Conduction", color=str(set_color))
-        ax2.set_ylabel("Conduction [mAU]", fontsize=15)
+        ax2.set_ylabel("UV/Vis signal [mAU]", fontsize=15)
         ax2.set_xlabel("Volume [ml]", fontsize=15)
         ax2.set_title("Chromatogram of " + str(set_name), fontsize=25)
         plt.scatter(x=0, y = -20, color="white")
