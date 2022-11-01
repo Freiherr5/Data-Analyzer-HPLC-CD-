@@ -68,9 +68,9 @@ while True:
 
         frac_ask = input("Do you want to create fraction file? (yes/no) ")
         if frac_ask.lower() == "yes":
-            input3 = input("Set the name of the Fraction file: ")
+            input3 = input("Set the name of the fraction file: ")
             frac_norm = df2.clean_frac()
-            frac_norm.to_csv(input3)
+            frac_norm.to_csv(input_mkdir + "/" + input3 +".csv")
 
         print("Task finished!")
 
@@ -90,7 +90,7 @@ while True:
         df2 = hplc.HPLC(df1)
         normalized_table = df2.clean_graph()
 
-        frac_ask = input('Do you want to add Fractions? (yes/no) ')
+        frac_ask = input('Do you want to add fractions? (yes/no) ')
         if frac_ask.lower() == "yes":
             if len(df1.iloc[0, 0].split("\t")) >= 12:
                 j = 2
