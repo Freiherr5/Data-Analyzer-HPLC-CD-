@@ -70,7 +70,7 @@ while True:
         if frac_ask.lower() == "yes":
             input3 = input("Set the name of the fraction file: ")
             frac_norm = df2.clean_frac()
-            frac_norm.to_csv(input_mkdir + "/" + input3 +".csv")
+            frac_norm.to_csv(input_mkdir + "/" + input3 + ".csv")
 
         print("Task finished!")
 
