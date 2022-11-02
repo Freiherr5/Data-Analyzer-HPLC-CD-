@@ -37,7 +37,7 @@ class HPLC:
             intermediate1_hplc = str(self.df3.iloc[i, 0]).split("\t")[1]
             sum_array_hplc.append([intermediate0_hplc, intermediate1_hplc])
             i = i + 1
-        df_hplc_clean = pd.DataFrame(sum_array_hplc, dtype=np.float64, columns=["Volume", "Conduction"])
+        df_hplc_clean = pd.DataFrame(sum_array_hplc, dtype=np.float64, columns=["Volume", "UV/Vis signal"])
 
         if df_hplc_clean.Volume[df_hplc_clean.Volume > 30.0].any() == True:
             new_cutoff = df_hplc_clean.Volume[df_hplc_clean.Volume > 30.0].min()
@@ -70,7 +70,7 @@ class HPLC:
     def hplc_plot(self, df_frac = 0, set_show=1, set_name="protein", set_directory= str(path) + "/output_graphs/", set_color="r"):
         plt.figure(figsize=(25, 10))
         ax2 = plt.subplot(1, 1, 1)
-        ax2.scatter(data=self, x="Volume", y="Conduction", color=str(set_color))
+        ax2.scatter(data=self, x="Volume", y="UV/Vis signal", color=str(set_color))
         ax2.set_ylabel("UV/Vis signal [mAU]", fontsize=15)
         ax2.set_xlabel("Volume [ml]", fontsize=15)
         ax2.set_title("Chromatogram of " + str(set_name), fontsize=25)
