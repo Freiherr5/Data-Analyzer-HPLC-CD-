@@ -1,7 +1,7 @@
 Package for Analysis of CD and HPLC data
 
 Note: 
-The algorithm has been designed for txt data produced by the Äkta pure system (cytiva) and
+The algorithm has been designed for .txt data produced by the Äkta pure system (cytiva) and
 CD spectrum data (molar ellipticity - wavelength spectrum and heat-denaturation spectrum) from
 Jasco circular dichroism spectroscopy machinery line.
 
